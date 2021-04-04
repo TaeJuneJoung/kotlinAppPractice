@@ -39,3 +39,30 @@ AppDatabase db = Room.databaseBuilder(this, AppDatabase.class, "todo-db")
 ```
 
 이렇게 사용하면 백그라운드에서 동작은 안하지만 앱이 켜있는 동안은 확인 가능
+
+## Kotlin
+
+```bash
+dependencies {
+  def room_version = "2.2.6"
+
+  implementation "androidx.room:room-runtime:$room_version"
+  kapt "androidx.room:room-compiler:$room_version"
+
+  // optional - Kotlin Extensions and Coroutines support for Room
+  implementation "androidx.room:room-ktx:$room_version"
+
+  // optional - Test helpers
+  testImplementation "androidx.room:room-testing:$room_version"
+}
+```
+
+`annotationProcessor`을 사용하지 말고 `kapt` 사용 권장
+
+
+
+
+
+## 참고 사이트
+
+https://developer.android.com/jetpack/androidx/releases/room#kotlin

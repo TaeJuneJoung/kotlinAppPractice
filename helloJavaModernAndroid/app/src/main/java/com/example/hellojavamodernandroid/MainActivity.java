@@ -26,15 +26,14 @@ public class MainActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build();
 
-        // 아래 버튼을 눌렀을 때와 반복되니 함수로 빼서 사용 권장
-        mResultTextView.setText(db.todoDao().getAll().toString());
+        // UI 갱신
+        db.todoDao().getAll().observe(this, todos -> {
+            mResultTextView.setText(todos.toString());
+        });
 
-        findViewById(R.id.add_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                db.todoDao().insert(new Todo(mTodoEditText.getText().toString()));
-                mResultTextView.setText(db.todoDao().getAll().toString());
-            }
+        // 버튼 클릭시 DB Insert
+        findViewById(R.id.add_btn).setOnClickListener(v -> {
+            db.todoDao().insert(new Todo(mTodoEditText.getText().toString()));
         });
     }
 }
