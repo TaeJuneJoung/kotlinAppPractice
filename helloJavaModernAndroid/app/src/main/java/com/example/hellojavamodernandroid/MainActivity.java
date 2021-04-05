@@ -3,6 +3,7 @@ package com.example.hellojavamodernandroid;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -23,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
         // 전역변수로 사용하는 것을 더 권장
         final AppDatabase db = Room.databaseBuilder(this, AppDatabase.class, "todo-db")
-                .allowMainThreadQueries()
                 .build();
 
         // UI 갱신
@@ -33,7 +33,51 @@ public class MainActivity extends AppCompatActivity {
 
         // 버튼 클릭시 DB Insert
         findViewById(R.id.add_btn).setOnClickListener(v -> {
-            db.todoDao().insert(new Todo(mTodoEditText.getText().toString()));
+            new InsertAsyncTask(db.todoDao())
+                    .execute(new Todo(mTodoEditText.getText().toString()));
         });
+    }
+
+    // Async Insert Method
+    private static class InsertAsyncTask extends AsyncTask<Todo, Void, Void> {
+        private TodoDao mTodoDao;
+
+        public InsertAsyncTask(TodoDao mTodoDao) {
+            this.mTodoDao = mTodoDao;
+        }
+
+        @Override
+        protected Void doInBackground(Todo... todos) {
+            mTodoDao.insert(todos[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateAsyncTask extends  AsyncTask<Todo, Void, Void> {
+        private TodoDao mTodoDao;
+
+        public UpdateAsyncTask(TodoDao mTodoDao) {
+            this.mTodoDao = mTodoDao;
+        }
+
+        @Override
+        protected Void doInBackground(Todo... todos) {
+            mTodoDao.update(todos[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteAsyncTask extends AsyncTask<Todo, Void, Void> {
+        private TodoDao mTodoDao;
+
+        public DeleteAsyncTask(TodoDao mTodoDao) {
+            this.mTodoDao = mTodoDao;
+        }
+
+        @Override
+        protected Void doInBackground(Todo... todos) {
+            mTodoDao.delete(todos[0]);
+            return null;
+        }
     }
 }
