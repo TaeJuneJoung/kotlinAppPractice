@@ -15,3 +15,7 @@
 ### 4. ViewModel
 
 [ViewModel Doc](./docs/viewModel.md)
+
+### 5. DataBinding
+
+[DataBinding Doc](./docs/dataBinding.md)
