@@ -4,4 +4,4 @@
 
 ## 1. Room
 
-[Room Markdown - Java](./docs/Room.md)
+[Room Markdown - Java](../docs/Room.md)
